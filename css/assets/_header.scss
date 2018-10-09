@@ -1,0 +1,207 @@
+// nth-child nav-link delay
+@mixin child-delay {
+	@for $i from 1 to 10 {
+		&:nth-child(#{$i}n) {
+			transition-delay: #{$i * .1}s;
+		}
+	}
+}
+
+/* Header */
+header {
+	background-color: $secondary;
+	.logo-mobile {
+		background-color: $white;
+		width: 100%;
+		padding: 1.9rem 0;
+		img {
+			width: 200px;
+		}
+	}
+	#menu {
+		position: fixed;
+		visibility: hidden;
+		top: 0;
+		left: 0;
+		background-color: $white;
+		height: 100%;
+		width: 100%;
+		opacity: 0;
+		z-index: 1;
+		transition: all .2s ease;
+		.logo {
+			width: 200px;
+			margin: 0 auto;
+			padding: 1.9rem 0;
+		}
+		.nav-link {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			width: 88%;
+			height: 100%;
+			margin: 0 auto;
+			a {
+				color: $textColor;
+				margin: .55rem 0;
+				font-size: 24px;
+				opacity: 0;
+				transform: translateX(100px);
+				transition: all 0.2s ease;
+				@include child-delay;
+			}
+		}
+	}
+	.content-wrap {
+		.content-left {
+			h1 {
+				color: $white;
+				font-size: 48px;
+			}
+		}
+	}
+}
+
+//The trigger parent icon.
+#trigger {
+	display: block;
+	position: fixed;
+	top: 1.4rem;
+	right: 1rem;
+	background-color: rgba($black, 0.5);
+	width: 50px;
+	height: 50px;
+	border-radius: 100px;
+	cursor: pointer;
+	z-index: 98;
+	transition: all 0.2s ease;
+}
+
+//hamburger icon menu
+.open {
+	i {
+		display: block;
+		background-color: $white; //black
+		width: 24px; //change length
+		height: 2px; //change thickness
+		margin: auto;
+		border-radius: 2px;
+		&:nth-child(1) {
+			margin-top: 18px;
+		}
+		&:nth-child(2) {
+			margin-top: 4px;
+			opacity: 1;
+		}
+		&:nth-child(3) {
+			margin-top: 4px;
+		}
+	}
+}
+
+//X menu icon from hamburger after triggered.
+.close {
+	transform: rotate(45deg);
+	i {
+		transition: transform .2s ease;
+		&:nth-child(1) {
+			transform: translateY(6px) rotate(180deg);
+		}
+		&:nth-child(2) {
+			opacity: 0;
+		}
+		&:nth-child(3) {
+			transform: translateY(-6px) rotate(90deg);
+		}
+	}
+}
+
+//Fade in Menu after triggered.
+header {
+	#menu {
+		&.show {
+			visibility: visible;
+			opacity: 1;
+			a {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+	}
+}
+
+/* Desktop Screen */
+@media screen and (min-width: 1000px) {
+	body header {
+		height: 100vh;
+		.logo-mobile {
+			display: none;
+		}
+		nav {
+			height: 4em;
+			background-color: $white;
+		}
+		#menu {
+			position: static;
+			display: flex;
+			justify-content: space-between;
+			visibility: visible;
+			opacity: 1;
+			transition: unset;
+			width: 88%;
+			margin: 0 auto;
+			.logo {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: 200px;
+				padding: 0;
+			}
+			.nav-link {
+				flex-direction: row;
+				justify-content: flex-end;
+				align-items: center;
+				a {
+					display: block;
+					color: $textColor;
+					margin: 10px 10px;
+					font-size: 1.2rem;
+					margin-bottom: 8px;
+					border-bottom: 4px solid transparent;
+					opacity: 1;
+					transform: translateX(0);
+					transition: unset;
+					&:hover {
+						color: $accent;
+						border-bottom: 4px solid $secondary;
+						transition: .2s;
+					}
+					&:nth-child(n + 0) {
+						transition-delay: unset;
+					}
+				}
+			}
+		}
+		.content-wrap {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			width: 88%;
+			margin: 0 auto;
+			.content-left {
+				display: flex;
+				align-items: center;
+				padding: 0 20px;
+				h1 {
+					font-size: 65px;
+					font-weight: 800;
+					text-align: left !important;
+				}
+			}
+		}
+	}
+
+	//Trigger menu is hidden on desktop
+	#trigger {
+		display: none;
+	}
+}
